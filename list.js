@@ -31,7 +31,7 @@ class ListNode {
             this._next = null;
         }
     }
-};
+}
 
 class List {
     constructor() {
@@ -116,13 +116,13 @@ class List {
     }
     [Symbol.iterator]() {
         var l = this;
-        var it = l.begin();
+        var iter = l.begin();
         function next() {
-            var curr = it;
+            var curr = iter;
             var val = null;
             var done = true;
             if (curr !== null) {
-                it = it.next();
+                iter = iter.next();
                 val = curr.value();
                 done = false;
             }
@@ -144,7 +144,7 @@ class List {
         }
         node.unlink();
     }
-};
+}
 
 if (typeof module !== 'undefined') {
     module.exports = List;

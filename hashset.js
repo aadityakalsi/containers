@@ -1,11 +1,14 @@
 /*! hashset.js */
 
+/*eslint-disable no-param-reassign */
+var list;
+var hash;
 if (typeof module !== 'undefined') {
-    var list = require('./list.js');
-    var hash = require('./hash.js');
+    list = require('./list.js');
+    hash = require('./hash.js');
 } else {
-    var list = List;
-    var hash = Hash;
+    list = List;
+    hash = Hash;
 }
 
 class HashSet {
@@ -30,11 +33,11 @@ class HashSet {
     }
     bucket(key) {
         var h = this._hash(key);
-        let hnum = (h % this._buckets.length);
-        return hnum < 0 ? (hnum + this._buckets.length) : hnum;
+        let hnum = h % this._buckets.length;
+        return hnum < 0 ? hnum + this._buckets.length : hnum;
     }
     find(key) {
-        if (this.size() == 0) return null; 
+        if (this.size() === 0) return null; 
         let b = this.bucket(key);
         b = this._buckets[b];
         var n = b.num;
@@ -53,12 +56,12 @@ class HashSet {
         return this.find(key) !== null;
     }
     add(key) {
-        if (this.size() == 0) {
+        if (this.size() === 0) {
             this.rehash(8);
         }
         var h = this._hash(key);
         let bnum = h % this._buckets.length;
-        bnum = bnum < 0 ? (bnum + this._buckets.length) : bnum;
+        bnum = bnum < 0 ? bnum + this._buckets.length : bnum;
         let b = this._buckets[bnum];
         var n = b.num;
         var f = b.first;
@@ -83,7 +86,7 @@ class HashSet {
         b.num++;
     }
     erase(key) {
-        if (this.size() == 0) return false; 
+        if (this.size() === 0) return false; 
         let b = this.bucket(key);
         b = this._buckets[b];
         var n = b.num;
@@ -110,7 +113,7 @@ class HashSet {
         this._buckets = set._buckets;
         this._list = set._list;
     }
-};
+}
 
 if (typeof module !== 'undefined') {
     module.exports = HashSet;

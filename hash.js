@@ -1,8 +1,9 @@
 /*! hash.js */
 
+/*eslint-disable no-param-reassign */
 var Hash = (function () {
     // Used to check objects for own properties
-    let _hasOwnProperty = Object.prototype.hasOwnProperty
+    let _hasOwnProperty = Object.prototype.hasOwnProperty;
 
     // Hashes a string
     let _hash = function(string) {
@@ -12,24 +13,26 @@ var Hash = (function () {
         for(let i = 0; i < len; i++)  {
             hash = (((hash << 5) - hash) + string.charCodeAt(i)) & 0xFFFFFFFF;
         }
-        return hash
-    }
+        return hash;
+    };
 
     // Deep hashes an object
     let _object = function(obj) {
-        if (typeof obj.getTime == 'function') {
+        if (typeof obj.getTime === 'function') {
             return obj.getTime();
         }
-        let result = 0;
+        let hash = 0;
         let phash = 0;
         for (let property in obj) {
             if (_hasOwnProperty.call(obj, property)) {
-                phash = hash(property + value(obj[property]));
-                result = (((hash << 5)-hash) + phash) & 0xFFFFFFFF;
+            	phash = 0;
+                phash += _hash(property);
+                phash += _hash(obj[property]);
+                hash = (((hash << 5)-hash) + phash) & 0xFFFFFFFF;
             }
         }
-        return result
-    }
+        return hash;
+    };
 
     let _MAPPER = {
         string: _hash,
@@ -41,11 +44,11 @@ var Hash = (function () {
     };
 
     let main = function(value) {
-        let type = value == undefined ? undefined : typeof value
+        let type = value == undefined ? undefined : typeof value;
         // Does a type check on the passed in value and calls the appropriate hash method
         let m = _MAPPER[type];
-        return m ? (m(value) + _hash(type)) : 0
-    }
+        return m ? m(value) + _hash(type) : 0;
+    };
 
     return main;
 }());
