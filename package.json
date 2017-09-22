@@ -1,0 +1,17 @@
+{
+  "name": "containers",
+  "version": "1.0.0",
+  "description": "A containers library for JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests --slow 0ms",
+    "cov": "nyc --reporter=html mocha tests --slow 0ms"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "nyc": "^11.2.1"
+  }
+}
