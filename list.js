@@ -1,3 +1,4 @@
+/*! list.js */
 class ListNode {
     constructor(val, prev, next) {
         this._val = val;
@@ -68,6 +69,9 @@ class List {
     }
     splice(node, new_node) {
         this.unlink_node(new_node);
+        this.splice_free(node, new_node);
+    }
+    splice_free(node, new_node) {
         if (node) {
             new_node.set_next(node);
             var np = node.prev();
@@ -82,7 +86,10 @@ class List {
             new_node.set_prev(this._last);
             if (this._last) {
                 this._last.set_next(new_node);
-                this._last = new_node;
+            }
+            this._last = new_node;
+            if (this._first === null) {
+                this._first = new_node;
             }
         }
     }
@@ -139,5 +146,6 @@ class List {
     }
 };
 
-
-module.exports = List;
+if (typeof module !== 'undefined') {
+    module.exports = List;
+}

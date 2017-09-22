@@ -80,6 +80,7 @@ describe('List', function() {
 
 const nreps = 5e4;
 describe('ListPerf: push front ' + nreps, function() {
+    // List
     var l = new list();
     it ('List: push front ' + nreps, function() {
         var i = 0;
@@ -97,21 +98,19 @@ describe('ListPerf: push front ' + nreps, function() {
         }
         expect(iters).to.equal(nreps);
     });
-});
-
-describe('ArrayPerf: push front ' + nreps, function() {
-    var l = new Array();
+    // Array
+    var a = new Array();
     it ('Array: push front ' + nreps, function () {
         var i = 0;
         for (; i < nreps; ++i) {
-            l.unshift(i);
+            a.unshift(i);
         }
     });
     it ('Array: can iter and verify', function() {
-        expect(l.length).to.equal(nreps);
+        expect(a.length).to.equal(nreps);
         var i = 1;
         var iters = 0;
-        for (var v of l) {
+        for (var v of a) {
             expect(v).to.equal(nreps - i);
             ++i; ++iters;
         }
