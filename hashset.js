@@ -13,7 +13,12 @@ if (typeof module !== 'undefined') {
 
 class HashSet {
     constructor(h, eq, cap, loadfac, grow) {
-        let eq_def = function(x, y) { return x === y; };
+        let eq_def = function(x, y) {
+            if (typeof x === 'object' && typeof y === 'object') {
+                return JSON.stringify(x) === JSON.stringify(y);
+            }
+            return x === y;
+        };
         h = h || hash;
         eq = eq || eq_def;
         cap = cap || 0;

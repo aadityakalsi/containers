@@ -4,7 +4,7 @@
   "description": "A containers library for JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests --timeout 10000 --slow 0ms",
+    "test": "env NODE_ENV=production mocha tests --timeout 10000 --slow 0ms",
     "cov": "nyc --reporter=lcov mocha tests --timeout 10000 --slow 0ms",
     "perf-rec": "env NODE_ENV=production mocha tests --timeout 10000 --prof --slow=0ms",
     "perf-rep": "node --prof-process isolate-*-v8.log > perf-results.txt && rm *.log"

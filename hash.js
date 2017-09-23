@@ -8,21 +8,25 @@ var Hash = (function () {
     // Hashes a string or float
     let _hash = function(data) {
         let hash = 0;
-        data = data.toString();
         let len = data.length;
-        for(let i = 0; i < len; i++)  {
-            hash = (((hash << 5) - hash) + data.charCodeAt(i)) & 0xFFFFFFFF;
+        let i = len;
+        while (i)  {
+            hash = (((hash << 5) - hash) + data.charCodeAt(--i)) & 0xFFFFFFFF;
         }
-        return hash;
+        return (((hash << 5) - hash) + len) & 0xFFFFFFFF;
     };
+
+    let _hashflt = function(data) {
+        return _hash(data.toString());
+    }
 
     let _hashnum = function(data) {
         if (data === +data && data === (data|0)) {
             return data;
         } else {
-            return _hash(data.toString());
+            return _hashflt(data);
         }
-    }
+    };
     
     let _hashbool = (function() {
         var t_hash = _hash("__bool__:true");
