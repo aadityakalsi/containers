@@ -10,6 +10,7 @@ if (typeof module !== 'undefined') {
     list = List;
     hash = Hash;
 }
+var assert = require('assert');
 
 class HashSet {
     constructor(h, eq, cap) {
@@ -27,6 +28,9 @@ class HashSet {
                 first: null
             };
         }
+    }
+    cap() {
+        return this._buckets.length;
     }
     size() {
         return this._list.size();
@@ -56,7 +60,7 @@ class HashSet {
         return this.find(key) !== null;
     }
     add(key) {
-        if (this.size() === 0) {
+        if (this.cap() === 0) {
             this.rehash(8);
         }
         var h = this._hash(key);
@@ -73,30 +77,33 @@ class HashSet {
             }
             f = f.next();
         }
-        if ((this.size() + 1) * 0.75 > this._buckets.length) {
+        if ((this.size() + 1) > this._buckets.length * 0.75) {
             this.rehash(this._buckets.length * 2);
+            bnum = h % this._buckets.length;
+            bnum = bnum < 0 ? bnum + this._buckets.length : bnum;
+            b = this._buckets[bnum];
         }
         this._list.push_back(key);
-        this._list.splice(b.first, this._list.last());
-        if (b.first) {
-            b.first = b.first.prev();
-        } else {
-            b.first = this._list.last();
-        }
+        let last = this._list.last();
+        this._list.splice(b.first, last);
+        b.first = last;
         b.num++;
     }
     erase(key) {
         if (this.size() === 0) return false; 
-        let b = this.bucket(key);
-        b = this._buckets[b];
+        let bnum = this.bucket(key);
+        let b = this._buckets[bnum];
         var n = b.num;
         var f = b.first;
         let i = 0;
         var eq = this._eq;
         for (; i < n; ++i) {
             if (eq(f.value(), key)) {
-                b.num--;
-                b.first = f.next();
+                if (--b.num === 0) {
+                    b.first = null;
+                } else  if (b.first === f) {
+                    b.first = f.next();
+                }
                 this._list.erase(f);
                 return true;
             }

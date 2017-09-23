@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha tests --slow 0ms",
-    "cov": "nyc --reporter=html mocha tests --slow 0ms"
+    "cov": "nyc --reporter=lcov mocha tests --slow 0ms"
   },
   "author": "",
   "license": "ISC",

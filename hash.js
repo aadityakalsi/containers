@@ -44,7 +44,7 @@ var Hash = (function () {
     };
 
     let main = function(value) {
-        let type = value == undefined ? undefined : typeof value;
+        let type = typeof value;
         // Does a type check on the passed in value and calls the appropriate hash method
         let m = _MAPPER[type];
         return m ? m(value) + _hash(type) : 0;
